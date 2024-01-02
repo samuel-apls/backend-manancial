@@ -1,0 +1,19 @@
+{
+  "name": "backend-assembleia-manancial",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "prisma generate && node server.js"
+  },
+  "type": "module",
+  "repository": "https://github.com/ibmanancial/backend-assembleias-manancial.git",
+  "author": "Davi Ximenes <82062555+davixmns@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "5.7.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "prisma": "^5.7.1"
+  }
+}
