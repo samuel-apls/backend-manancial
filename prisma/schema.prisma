@@ -17,15 +17,15 @@ model MembrosManancialQualificacoes {
   endereco        String
   email           String             @unique
   celular         String
-  membros         MembrosManancial[]
+  membros         MembrosManancial[] @relation("MembrosManancialQualificacoes-MembrosManancial")
 }
 
 model MembrosManancial {
   id_membro              Int                           @id @default(autoincrement())
   data_nascimento        DateTime
   data_membresia_entrada DateTime
-  data_membresia_saida   DateTime
-  qualificacao           MembrosManancialQualificacoes @relation(fields: [id_qualificacao], references: [id_qualificacao])
+  data_membresia_saida   DateTime?
+  qualificacao           MembrosManancialQualificacoes? @relation(name: "MembrosManancialQualificacoes-MembrosManancial", fields: [id_qualificacao], references: [id_qualificacao])
   id_qualificacao        Int
 }
 

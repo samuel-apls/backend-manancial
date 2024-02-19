@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "build": "prisma generate && node server.js",
+    "start": "nodemon server.js",
+    "build": "prisma generate && nodemon server.js",
     "migrate-dev": "npx prisma migrate dev"
   },
   "type": "module",
@@ -12,9 +12,10 @@
   "author": "Davi Ximenes <82062555+davixmns@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "5.7.1",
+    "@prisma/client": "^5.9.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "prisma": "^5.7.1"
+    "nodemon": "^3.0.3",
+    "prisma": "^5.9.1"
   }
 }

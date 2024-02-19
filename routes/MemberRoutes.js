@@ -1,4 +1,5 @@
 import {Router} from "express";
+import MemberController from "../controllers/MemberController.js";
 
 const router = Router();
 
