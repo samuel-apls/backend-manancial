@@ -7,35 +7,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model MembrosManancial {
-  id_membro              Int                            @id @default(autoincrement())
-  data_nascimento        DateTime
-  data_membresia_entrada DateTime
-  data_membresia_saida   DateTime?
-  qualificacao           MembrosManancialQualificacoes?
+model ManancialMembers {
+  member_id             Int                            @id @default(autoincrement())
+  birth_date            DateTime
+  entry_membership_date DateTime
+  exit_membership_date  DateTime?
+  qualification         ManancialMembersQualification?
 }
 
-model MembrosManancialQualificacoes {
-  id_qualificacao Int              @id @default(autoincrement())
-  nome_completo   String
-  profissao       String
-  estado_civil    String
-  cpf             String           @unique
-  rg              String           @unique
-  endereco        String
-  email           String           @unique
-  celular         String
-  senha           String
-  id_membro       Int              @unique
-  qualificacao    MembrosManancial @relation(fields: [id_membro], references: [id_membro])
+model ManancialMembersQualification {
+  qualification_id Int              @id @default(autoincrement())
+  full_name        String
+  occupation       String
+  marital_status   String
+  cpf              String           @unique
+  rg               String           @unique
+  address          String
+  email            String           @unique
+  phone_number     String
+  password         String
+  member_id        Int              @unique
+  qualificacao     ManancialMembers @relation(fields: [member_id], references: [member_id])
 }
 
 model LogsAplicacoes {
-  id_log        Int      @id @default(autoincrement())
-  id_correlacao String
-  log_mensagens String
-  log_data      DateTime
-  ambiente      String
-  aplicacao     String
-  log_nivel     String
+  id_log         Int      @id @default(autoincrement())
+  id_correlation String
+  log_message    String
+  log_data       DateTime
+  environment    String
+  application    String
+  log_levek      String
 }

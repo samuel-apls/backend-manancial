@@ -7,30 +7,30 @@ export default {
         const newMember = req.body.member;
         const validMember = verifyNewMember(newMember);
         if (validMember !== true) return res.status(400).json({message: validMember});
-        const memberExists = await prismaClient.membrosManancialQualificacoes.findUnique({where: {email: newMember.email}});
+        const memberExists = await prismaClient.manancialMembersQualification.findUnique({where: {email: newMember.email}});
         if (memberExists) return res.status(400).json({message: "Membro já cadastrado"});
 
         try {
             await prismaClient.$transaction(async (prisma) => {
-                const member = await prisma.membrosManancial.create({
+                const member = await prisma.manancialMembers.create({
                     data: {
-                        data_nascimento: newMember.data_nascimento,
-                        data_membresia_entrada: newMember.data_membresia_entrada,
-                        data_membresia_saida: newMember.data_membresia_saida,
+                        birth_date: newMember.birth_date,
+                        entry_membership_date: newMember.entry_membership_date,
+                        exit_membership_date: newMember.exit_membership_date
                     }
                 })
-                await prisma.membrosManancialQualificacoes.create({
+                await prisma.manancialMembersQualification.create({
                     data: {
-                        nome_completo: newMember.nome_completo,
-                        profissao: newMember.profissao,
-                        estado_civil: newMember.estado_civil,
+                        full_name: newMember.full_name,
+                        occupation: newMember.occupation,
+                        marital_status: newMember.marital_status,
                         cpf: newMember.cpf,
                         rg: newMember.rg,
-                        endereco: newMember.endereco,
+                        address: newMember.address,
                         email: newMember.email,
-                        celular: newMember.celular,
-                        senha: await bcrypt.hash(newMember.senha, 12),
-                        id_membro: member.id_membro
+                        phone_number: newMember.phone_number,
+                        password: await bcrypt.hash(newMember.password, 10),
+                        member_id: member.member_id
                     }
                 });
             })

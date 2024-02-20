@@ -3,19 +3,17 @@ export const cpfRegex = /^[0-9]{11}$/
 
 export function verifyNewMember(member) {
     const {
-        nome_completo, profissao, estado_civil, cpf,
-        rg, endereco, email, celular, data_nascimento,
-        data_membresia_entrada, data_membresia_saida,
-        senha
+        full_name, occupation, marital_status, cpf, rg, address, email, phone_number,
+        password, birth_date, entry_membership_date, exit_membership_date
     } = member;
 
-    if (!nome_completo || !profissao || !estado_civil ||
-        !cpf || !rg || !endereco || !email || !celular ||
-        !data_nascimento || !data_membresia_entrada || !senha) {
+    if (!full_name || !occupation || !marital_status ||
+        !cpf || !rg || !address || !email || !phone_number ||
+        !birth_date || !entry_membership_date || !password) {
         return "Preencha todos os campos";
     }
 
-    if (senha.length < 6) {
+    if (password.length < 6) {
         return "Senha deve ter no mínimo 6 caracteres";
     }
 
