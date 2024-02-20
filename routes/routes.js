@@ -1,12 +1,14 @@
 import MemberRoutes from "./MemberRoutes.js";
+import AuthRoutes from "./AuthRoutes.js";
 import {Router} from "express";
 
-const routes = Router();
+const router = Router();
 
-routes.use(MemberRoutes)
+router.use(MemberRoutes)
+router.use(AuthRoutes)
 
-routes.use('/', (req, res) => {
+router.use('/', (req, res) => {
     res.send('API MANANCIAL ASSEMBLEIAS OK!')
 })
 
-export default routes;
+export default router;

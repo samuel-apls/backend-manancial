@@ -1,4 +1,14 @@
 -- CreateTable
+CREATE TABLE "MembrosManancial" (
+    "id_membro" SERIAL NOT NULL,
+    "data_nascimento" TIMESTAMP(3) NOT NULL,
+    "data_membresia_entrada" TIMESTAMP(3) NOT NULL,
+    "data_membresia_saida" TIMESTAMP(3),
+
+    CONSTRAINT "MembrosManancial_pkey" PRIMARY KEY ("id_membro")
+);
+
+-- CreateTable
 CREATE TABLE "MembrosManancialQualificacoes" (
     "id_qualificacao" SERIAL NOT NULL,
     "nome_completo" TEXT NOT NULL,
@@ -9,19 +19,10 @@ CREATE TABLE "MembrosManancialQualificacoes" (
     "endereco" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "celular" TEXT NOT NULL,
+    "senha" TEXT NOT NULL,
+    "id_membro" INTEGER NOT NULL,
 
     CONSTRAINT "MembrosManancialQualificacoes_pkey" PRIMARY KEY ("id_qualificacao")
-);
-
--- CreateTable
-CREATE TABLE "MembrosManancial" (
-    "id_membro" SERIAL NOT NULL,
-    "data_nascimento" TIMESTAMP(3) NOT NULL,
-    "data_membresia_entrada" TIMESTAMP(3) NOT NULL,
-    "data_membresia_saida" TIMESTAMP(3) NOT NULL,
-    "id_qualificacao" INTEGER NOT NULL,
-
-    CONSTRAINT "MembrosManancial_pkey" PRIMARY KEY ("id_membro")
 );
 
 -- CreateTable
@@ -46,5 +47,8 @@ CREATE UNIQUE INDEX "MembrosManancialQualificacoes_rg_key" ON "MembrosManancialQ
 -- CreateIndex
 CREATE UNIQUE INDEX "MembrosManancialQualificacoes_email_key" ON "MembrosManancialQualificacoes"("email");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "MembrosManancialQualificacoes_id_membro_key" ON "MembrosManancialQualificacoes"("id_membro");
+
 -- AddForeignKey
-ALTER TABLE "MembrosManancial" ADD CONSTRAINT "MembrosManancial_id_qualificacao_fkey" FOREIGN KEY ("id_qualificacao") REFERENCES "MembrosManancialQualificacoes"("id_qualificacao") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "MembrosManancialQualificacoes" ADD CONSTRAINT "MembrosManancialQualificacoes_id_membro_fkey" FOREIGN KEY ("id_membro") REFERENCES "MembrosManancial"("id_membro") ON DELETE RESTRICT ON UPDATE CASCADE;

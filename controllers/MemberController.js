@@ -1,5 +1,6 @@
 import {verifyNewMember} from "../utils/utils.js";
 import {prismaClient} from "../utils/prismaClient.js";
+import bcrypt from "bcrypt";
 
 export default {
     async createMember(req, res) {
@@ -11,7 +12,14 @@ export default {
 
         try {
             await prismaClient.$transaction(async (prisma) => {
-                const member = await prisma.membrosManancialQualificacoes.create({
+                const member = await prisma.membrosManancial.create({
+                    data: {
+                        data_nascimento: newMember.data_nascimento,
+                        data_membresia_entrada: newMember.data_membresia_entrada,
+                        data_membresia_saida: newMember.data_membresia_saida,
+                    }
+                })
+                await prisma.membrosManancialQualificacoes.create({
                     data: {
                         nome_completo: newMember.nome_completo,
                         profissao: newMember.profissao,
@@ -20,17 +28,11 @@ export default {
                         rg: newMember.rg,
                         endereco: newMember.endereco,
                         email: newMember.email,
-                        celular: newMember.celular
+                        celular: newMember.celular,
+                        senha: await bcrypt.hash(newMember.senha, 12),
+                        id_membro: member.id_membro
                     }
                 });
-                await prisma.membrosManancial.create({
-                    data: {
-                        data_nascimento: newMember.data_nascimento,
-                        data_membresia_entrada: newMember.data_membresia_entrada,
-                        data_membresia_saida: newMember.data_membresia_saida,
-                        id_qualificacao: member.id_qualificacao
-                    }
-                })
             })
             res.status(201).json({message: "Membro cadastrado com sucesso"})
         } catch (e) {

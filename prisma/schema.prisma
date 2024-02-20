@@ -7,26 +7,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model MembrosManancialQualificacoes {
-  id_qualificacao Int                @id @default(autoincrement())
-  nome_completo   String
-  profissao       String
-  estado_civil    String
-  cpf             String             @unique
-  rg              String             @unique
-  endereco        String
-  email           String             @unique
-  celular         String
-  membros         MembrosManancial[] @relation("MembrosManancialQualificacoes-MembrosManancial")
-}
-
 model MembrosManancial {
-  id_membro              Int                           @id @default(autoincrement())
+  id_membro              Int                            @id @default(autoincrement())
   data_nascimento        DateTime
   data_membresia_entrada DateTime
   data_membresia_saida   DateTime?
-  qualificacao           MembrosManancialQualificacoes? @relation(name: "MembrosManancialQualificacoes-MembrosManancial", fields: [id_qualificacao], references: [id_qualificacao])
-  id_qualificacao        Int
+  qualificacao           MembrosManancialQualificacoes?
+}
+
+model MembrosManancialQualificacoes {
+  id_qualificacao Int              @id @default(autoincrement())
+  nome_completo   String
+  profissao       String
+  estado_civil    String
+  cpf             String           @unique
+  rg              String           @unique
+  endereco        String
+  email           String           @unique
+  celular         String
+  senha           String
+  id_membro       Int              @unique
+  qualificacao    MembrosManancial @relation(fields: [id_membro], references: [id_membro])
 }
 
 model LogsAplicacoes {
