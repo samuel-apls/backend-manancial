@@ -1,16 +1,11 @@
-import {verifyNewMember} from "../utils/utils.js";
 import {prismaClient} from "../utils/prismaClient.js";
 import bcrypt from "bcrypt";
 
 export default {
-    async createMember(req, res) {
-        const newMember = req.body.member;
-        const validMember = verifyNewMember(newMember);
-        if (validMember !== true) return res.status(400).json({message: validMember});
-        const memberExists = await prismaClient.manancialMembersQualification.findUnique({where: {email: newMember.email}});
-        if (memberExists) return res.status(400).json({message: "Membro já cadastrado"});
 
+    async createNewMember(req, res) {
         try {
+            const newMember = req.body.member;
             await prismaClient.$transaction(async (prisma) => {
                 const member = await prisma.manancialMembers.create({
                     data: {
@@ -34,10 +29,11 @@ export default {
                     }
                 });
             })
-            res.status(201).json({message: "Membro cadastrado com sucesso"})
+            return res.status(201).json({message: "Membro cadastrado com sucesso"})
         } catch (e) {
             console.log("Erro ao cadastrar novo membro ->", e)
-            res.status(500).json({message: "Erro ao salvar membro"})
+            return res.status(500).json({message: "Erro ao salvar membro"})
         }
     }
+    
 }
