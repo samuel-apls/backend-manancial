@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ManancialMembers {
+  member_id             Int                            @id @default(autoincrement())
+  birth_date            DateTime
+  entry_membership_date DateTime
+  exit_membership_date  DateTime?
+  qualification         ManancialMembersQualification?
+}
+
+model ManancialMembersQualification {
+  qualification_id Int              @id @default(autoincrement())
+  full_name        String
+  occupation       String
+  marital_status   String
+  cpf              String           @unique
+  rg               String           @unique
+  address          String
+  email            String           @unique
+  phone_number     String
+  password         String
+  member_id        Int              @unique
+  qualificacao     ManancialMembers @relation(fields: [member_id], references: [member_id])
+}
+
+model LogsAplicacoes {
+  id_log         Int      @id @default(autoincrement())
+  id_correlation String
+  log_message    String
+  log_data       DateTime
+  environment    String
+  application    String
+  log_levek      String
+}
