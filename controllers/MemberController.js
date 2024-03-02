@@ -9,6 +9,7 @@ export default {
             await prismaClient.$transaction(async (prisma) => {
                 const member = await prisma.manancialMembers.create({
                     data: {
+                        name: newMember.name,
                         birth_date: newMember.birth_date,
                         entry_membership_date: newMember.entry_membership_date,
                         exit_membership_date: newMember.exit_membership_date

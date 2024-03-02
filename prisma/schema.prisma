@@ -9,6 +9,7 @@ datasource db {
 
 model ManancialMembers {
   member_id             Int                            @id @default(autoincrement())
+  name                  String
   birth_date            DateTime
   entry_membership_date DateTime
   exit_membership_date  DateTime?

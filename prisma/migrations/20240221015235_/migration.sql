@@ -1,6 +1,7 @@
 -- CreateTable
 CREATE TABLE "ManancialMembers" (
     "member_id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
     "birth_date" TIMESTAMP(3) NOT NULL,
     "entry_membership_date" TIMESTAMP(3) NOT NULL,
     "exit_membership_date" TIMESTAMP(3),
