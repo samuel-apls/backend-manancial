@@ -1,5 +1,5 @@
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const cpfRegex = /^(?!([0-9])\1{10})[0-9]{11}$/
+export const cpfRegex = /^(?!([0-9])\1{10})[0-9]{11}$/
 
 //fonte: https://www.devmedia.com.br/validar-cpf-com-javascript/23916
 export function verifyCPF(cpf) {
