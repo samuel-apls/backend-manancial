@@ -5,13 +5,25 @@ export default {
 
     async verifyNewMember(req, res, next) {
         const {
-            full_name, occupation, marital_status, cpf, rg, address, email, phone_number,
-            password, birth_date, entry_membership_date, exit_membership_date
+            birth_date, entry_membership_date, exit_membership_date
         } = req.body.member;
+
+        if (!birth_date || !entry_membership_date) {
+            return res.status(400).json({message: "Preencha todos os campos"});
+        }
+
+        next();
+    },
+
+    async checkQualificationsMember(req, res, next) {
+        const {
+            full_name, occupation, marital_status, cpf, rg, address, email, phone_number,
+            password
+        } = req.body.classifications;
 
         if (!full_name || !occupation || !marital_status ||
             !cpf || !rg || !address || !email || !phone_number ||
-            !birth_date || !entry_membership_date || !password) {
+            !password) {
             return res.status(400).json({message: "Preencha todos os campos"});
         }
 
