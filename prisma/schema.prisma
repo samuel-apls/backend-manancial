@@ -9,7 +9,9 @@ datasource db {
 
 model ManancialMembers {
   member_id             Int                            @id @default(autoincrement())
-  name                  String
+  full_name             String
+  email                 String                         @unique
+  password              String
   birth_date            DateTime
   entry_membership_date DateTime
   exit_membership_date  DateTime?
@@ -18,15 +20,13 @@ model ManancialMembers {
 
 model ManancialMembersQualification {
   qualification_id Int              @id @default(autoincrement())
-  full_name        String
   occupation       String
+  role_church      String
   marital_status   String
   cpf              String           @unique
   rg               String           @unique
   address          String
-  email            String           @unique
   phone_number     String
-  password         String
   member_id        Int              @unique
   qualificacao     ManancialMembers @relation(fields: [member_id], references: [member_id])
 }

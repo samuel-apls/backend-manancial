@@ -12,6 +12,9 @@ export default {
                     data: {
                         name: newMember.name,
                         birth_date: newMember.birth_date,
+                        full_name: newMember.full_name,
+                        email: newMember.email,
+                        password: await bcrypt.hash(newMember.password, 10),
                         entry_membership_date: newMember.entry_membership_date,
                         exit_membership_date: newMember.exit_membership_date,
                         member_id: newMember.member_id
@@ -32,15 +35,13 @@ export default {
             await prismaClient.$transaction(async (prisma) => {
                 const classifications = await prisma.manancialMembersQualification.create({
                     data: {
-                        full_name: newClassifications.full_name,
                         occupation: newClassifications.occupation,
+                        role_church: newClassifications.role_church,
                         marital_status: newClassifications.marital_status,
                         cpf: newClassifications.cpf,
                         rg: newClassifications.rg,
                         address: newClassifications.address,
-                        email: newClassifications.email,
                         phone_number: newClassifications.phone_number,
-                        password: await bcrypt.hash(newClassifications.password, 10),
                         member_id: newClassifications.member_id
                     }
                 })

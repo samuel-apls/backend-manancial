@@ -10,7 +10,7 @@ export default {
             if (!emailOrCpf || !password) return res.status(400).json({message: "Preencha todos os campos"});
             let member;
             if (emailRegex.test(emailOrCpf)) {
-                member = await prismaClient.manancialMembersQualification.findUnique({where: {email: emailOrCpf}});
+                member = await prismaClient.manancialMembers.findUnique({where: {email: emailOrCpf}});
             } else if (cpfRegex.test(emailOrCpf)) {
                 member = await prismaClient.manancialMembersQualification.findUnique({where: {cpf: emailOrCpf}});
             } else {
