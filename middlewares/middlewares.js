@@ -8,7 +8,7 @@ export default {
             birth_date, full_name, email, password, entry_membership_date, exit_membership_date
         } = req.body.member;
 
-        if (!birth_date || !full_name || !email || !password || !entry_membership_date) {
+        if (!birth_date || !full_name || !email || !password || !entry_membership_date || !phone_number) {
             return res.status(400).json({message: "Preencha todos os campos"});
         }
 
@@ -35,11 +35,11 @@ export default {
 
     async checkQualificationsMember(req, res, next) {
         const {
-            occupation, role_church, marital_status, cpf, rg, address, phone_number
+            occupation, role_church, marital_status, cpf, rg, address
         } = req.body.classifications;
 
         if (!occupation || !marital_status ||
-            !cpf || !rg || !address || !phone_number || !role_church) {
+            !cpf || !rg || !address || !role_church) {
             return res.status(400).json({message: "Preencha todos os campos"});
         }
 

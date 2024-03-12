@@ -5,6 +5,7 @@ CREATE TABLE "ManancialMembers" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "birth_date" TIMESTAMP(3) NOT NULL,
+    "phone_number" TEXT NOT NULL,
     "entry_membership_date" TIMESTAMP(3) NOT NULL,
     "exit_membership_date" TIMESTAMP(3),
 
@@ -20,7 +21,6 @@ CREATE TABLE "ManancialMembersQualification" (
     "cpf" TEXT NOT NULL,
     "rg" TEXT NOT NULL,
     "address" TEXT NOT NULL,
-    "phone_number" TEXT NOT NULL,
     "member_id" INTEGER NOT NULL,
 
     CONSTRAINT "ManancialMembersQualification_pkey" PRIMARY KEY ("qualification_id")

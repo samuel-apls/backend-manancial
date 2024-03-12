@@ -12,6 +12,7 @@ export const createMember = async (newMember) => {
             full_name: newMember.full_name,
             email: newMember.email,
             password: hashedPassword,
+            phone_number: newMember.phone_number,
             entry_membership_date: newMember.entry_membership_date,
             exit_membership_date: newMember.exit_membership_date,
             member_id: newMember.member_id,
@@ -35,7 +36,6 @@ export const createMemberQualification = async (newClassifications) => {
           cpf: newClassifications.cpf,
           rg: newClassifications.rg,
           address: newClassifications.address,
-          phone_number: newClassifications.phone_number,
           member_id: newClassifications.member_id,
         },
       });
