@@ -8,7 +8,7 @@ export default {
             birth_date, full_name, email, password, entry_membership_date, exit_membership_date
         } = req.body.member;
 
-        if (!birth_date || !full_name || !email || !password || !entry_membership_date || !phone_number) {
+        if (!birth_date || !full_name || !email || !password || !entry_membership_date) {
             return res.status(400).json({message: "Preencha todos os campos"});
         }
 

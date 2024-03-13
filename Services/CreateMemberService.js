@@ -26,6 +26,30 @@ export const createMember = async (newMember) => {
       }
 };
 
+export const requestMember = async (memberId) => {
+  try {
+    const member = await prismaClient.manancialMembers.findUnique({
+      select: {
+        member_id: true,
+        full_name: true,
+        email: true,
+        birth_date: true,
+        phone_number: true,
+        entry_membership_date: true,
+        exit_membership_date: true
+      },
+      where: {
+          member_id: memberId
+      }
+    });
+
+    return member;
+      
+    } catch (error) {
+      throw error;
+    }
+};
+
 export const createMemberQualification = async (newClassifications) => {
     try {
       const createdQualification = await prismaClient.manancialMembersQualification.create({

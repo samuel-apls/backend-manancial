@@ -1,4 +1,4 @@
-import { createMember, createMemberQualification } from "../Services/CreateMemberService.js";
+import { createMember, requestMember, createMemberQualification } from "../Services/CreateMemberService.js";
 
 export default {
 
@@ -11,6 +11,23 @@ export default {
         } catch (e) {
             console.log("Erro ao cadastrar novo membro ->", e)
             return res.status(500).json({message: "Erro ao salvar membro"})
+        }
+    },
+
+    // Request a customer member
+    async requestManancialMember(req, res) {
+        try {
+            const memberId = req.query.Id;
+            const member = await requestMember(parseInt(memberId));
+            
+            if (member) {
+                return res.status(200).json({ data: member });
+            } else {
+                return res.status(404).json({ message: 'Member not found' });
+            }
+        } catch (e) {
+            console.log("Erro ao buscar membro ->", e)
+            return res.status(500).json({message: "Erro ao buscar membro"})
         }
     },
 
