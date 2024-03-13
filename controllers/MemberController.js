@@ -1,38 +1,67 @@
-import {prismaClient} from "../utils/prismaClient.js";
-import bcrypt from "bcrypt";
+import { 
+    createMember, 
+    requestMember, 
+    createMemberQualification, 
+    requestAllMembers 
+} from "../Services/CreateMemberService.js";
 
 export default {
 
-    async createNewMember(req, res) {
+    // Create a new customer member
+    async createManancialMember(req, res) {
         try {
             const newMember = req.body.member;
-            await prismaClient.$transaction(async (prisma) => {
-                const member = await prisma.manancialMembers.create({
-                    data: {
-                        birth_date: newMember.birth_date,
-                        entry_membership_date: newMember.entry_membership_date,
-                        exit_membership_date: newMember.exit_membership_date
-                    }
-                })
-                await prisma.manancialMembersQualification.create({
-                    data: {
-                        full_name: newMember.full_name,
-                        occupation: newMember.occupation,
-                        marital_status: newMember.marital_status,
-                        cpf: newMember.cpf,
-                        rg: newMember.rg,
-                        address: newMember.address,
-                        email: newMember.email,
-                        phone_number: newMember.phone_number,
-                        password: await bcrypt.hash(newMember.password, 10),
-                        member_id: member.member_id
-                    }
-                });
-            })
+            await createMember(newMember);
             return res.status(201).json({message: "Membro cadastrado com sucesso"})
         } catch (e) {
             console.log("Erro ao cadastrar novo membro ->", e)
             return res.status(500).json({message: "Erro ao salvar membro"})
+        }
+    },
+
+    // Request a customer member
+    async requestManancialMember(req, res) {
+        try {
+            const memberId = req.query.Id;
+            const member = await requestMember(parseInt(memberId));
+            
+            if (member) {
+                return res.status(200).json({ data: member });
+            } else {
+                return res.status(404).json({ message: 'Member not found' });
+            }
+        } catch (e) {
+            console.log("Erro ao buscar membro ->", e)
+            return res.status(500).json({message: "Erro ao buscar membro"})
+        }
+    },
+
+    // Request all customers members
+    async requestAllManancialMember(req, res) {
+        try {
+            const member = await requestAllMembers();
+            
+            if (member) {
+                return res.status(200).json({ data: member });
+            } else {
+                return res.status(404).json({ message: 'Empty Database' });
+            }
+        } catch (e) {
+            console.log("Erro ao buscar membros ->", e)
+            return res.status(500).json({message: "Erro ao buscar membros"})
+        }
+    },
+
+    // It can only create qualification if customer is already member 
+    async createMemberQualification(req, res) {
+        try {
+            const newClassifications = req.body.classifications;
+            await createMemberQualification(newClassifications);
+            return res.status(201).json({message: "Qualificação cadastrada com sucesso!"});
+
+        } catch (e) {
+            console.log("Erro ao cadastrar qualificações", e)
+            return res.status(400).json({message: "Erro ao cadastrar qualificações"})
         }
     }
     

@@ -1,7 +1,11 @@
 -- CreateTable
 CREATE TABLE "ManancialMembers" (
     "member_id" SERIAL NOT NULL,
+    "full_name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "birth_date" TIMESTAMP(3) NOT NULL,
+    "phone_number" TEXT NOT NULL,
     "entry_membership_date" TIMESTAMP(3) NOT NULL,
     "exit_membership_date" TIMESTAMP(3),
 
@@ -11,15 +15,12 @@ CREATE TABLE "ManancialMembers" (
 -- CreateTable
 CREATE TABLE "ManancialMembersQualification" (
     "qualification_id" SERIAL NOT NULL,
-    "full_name" TEXT NOT NULL,
     "occupation" TEXT NOT NULL,
+    "role_church" TEXT NOT NULL,
     "marital_status" TEXT NOT NULL,
     "cpf" TEXT NOT NULL,
     "rg" TEXT NOT NULL,
     "address" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "phone_number" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
     "member_id" INTEGER NOT NULL,
 
     CONSTRAINT "ManancialMembersQualification_pkey" PRIMARY KEY ("qualification_id")
@@ -45,7 +46,7 @@ CREATE UNIQUE INDEX "ManancialMembersQualification_cpf_key" ON "ManancialMembers
 CREATE UNIQUE INDEX "ManancialMembersQualification_rg_key" ON "ManancialMembersQualification"("rg");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ManancialMembersQualification_email_key" ON "ManancialMembersQualification"("email");
+CREATE UNIQUE INDEX "ManancialMembers_email_key" ON "ManancialMembers"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ManancialMembersQualification_member_id_key" ON "ManancialMembersQualification"("member_id");
