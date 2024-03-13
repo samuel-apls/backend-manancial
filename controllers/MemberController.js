@@ -1,4 +1,9 @@
-import { createMember, requestMember, createMemberQualification } from "../Services/CreateMemberService.js";
+import { 
+    createMember, 
+    requestMember, 
+    createMemberQualification, 
+    requestAllMembers 
+} from "../Services/CreateMemberService.js";
 
 export default {
 
@@ -28,6 +33,22 @@ export default {
         } catch (e) {
             console.log("Erro ao buscar membro ->", e)
             return res.status(500).json({message: "Erro ao buscar membro"})
+        }
+    },
+
+    // Request all customers members
+    async requestAllManancialMember(req, res) {
+        try {
+            const member = await requestAllMembers();
+            
+            if (member) {
+                return res.status(200).json({ data: member });
+            } else {
+                return res.status(404).json({ message: 'Empty Database' });
+            }
+        } catch (e) {
+            console.log("Erro ao buscar membros ->", e)
+            return res.status(500).json({message: "Erro ao buscar membros"})
         }
     },
 
