@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "prisma generate && node server.js",
+    "build": "prisma generate",
     "migrate-dev": "npx prisma migrate dev"
   },
   "type": "module",

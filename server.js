@@ -12,7 +12,4 @@ app.use(express.json());
 app.use(routes);
 
 // Iniciar servidor
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`API MANANCIAL OK NA PORTA ${port}`);
-});
+app.listen(process.env.PORT || 3000);
