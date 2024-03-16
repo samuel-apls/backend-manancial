@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 export const createMember = async (newMember) => {
     try {
         const hashedPassword = await bcrypt.hash(newMember.password, 10);
-    
+        
         const createdMember = await prismaClient.manancialMembers.create({
           data: {
             name: newMember.name,
@@ -12,7 +12,7 @@ export const createMember = async (newMember) => {
             full_name: newMember.full_name,
             email: newMember.email,
             password: hashedPassword,
-            role: newMember.role,
+            role: newMember.role !== undefined ? newMember.role : 0,
             phone_number: newMember.phone_number,
             entry_membership_date: newMember.entry_membership_date,
             exit_membership_date: newMember.exit_membership_date,

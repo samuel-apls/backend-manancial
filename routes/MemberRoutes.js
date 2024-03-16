@@ -5,9 +5,9 @@ import MemberController from "../controllers/MemberController.js";
 
 const router = Router();
 
-router.post("/member", middlewareAuthentication.checkPermitionRoles, middlewareMember.verifyNewMember, MemberController.createManancialMember)
-router.post("/qualificationsMember", middlewareAuthentication.checkPermitionRoles, middlewareMember.checkQualificationsMember, MemberController.createMemberQualification)
-router.get("/getMember", middlewareAuthentication.checkPermitionRoles, MemberController.requestManancialMember)
-router.get("/getAllMembers", middlewareAuthentication.checkPermitionRoles, MemberController.requestAllManancialMember)
+router.post("/member", middlewareAuthentication.checkAdminPermitionRole, middlewareMember.verifyNewMember, MemberController.createManancialMember)
+router.post("/qualificationsMember", middlewareAuthentication.checkAdminPermitionRole, middlewareMember.checkQualificationsMember, MemberController.createMemberQualification)
+router.get("/getMember", middlewareAuthentication.checkAnyPermitionsRoles, MemberController.requestManancialMember)
+router.get("/getAllMembers", middlewareAuthentication.checkAnyPermitionsRoles, MemberController.requestAllManancialMember)
 
 export default router;
