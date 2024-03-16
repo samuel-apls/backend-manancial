@@ -28,7 +28,7 @@ export default {
             if (member) {
                 return res.status(200).json({ data: member });
             } else {
-                return res.status(404).json({ message: 'Member not found' });
+                return res.status(404).json({ message: 'Membro não encontrado' });
             }
         } catch (e) {
             console.log("Erro ao buscar membro ->", e)
