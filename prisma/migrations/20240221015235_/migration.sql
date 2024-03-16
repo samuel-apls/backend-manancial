@@ -4,6 +4,7 @@ CREATE TABLE "ManancialMembers" (
     "full_name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "role" SMALLINT,
     "birth_date" TIMESTAMP(3) NOT NULL,
     "phone_number" TEXT NOT NULL,
     "entry_membership_date" TIMESTAMP(3) NOT NULL,
