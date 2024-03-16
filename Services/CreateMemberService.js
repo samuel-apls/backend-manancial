@@ -12,6 +12,7 @@ export const createMember = async (newMember) => {
             full_name: newMember.full_name,
             email: newMember.email,
             password: hashedPassword,
+            role: newMember.role,
             phone_number: newMember.phone_number,
             entry_membership_date: newMember.entry_membership_date,
             exit_membership_date: newMember.exit_membership_date,

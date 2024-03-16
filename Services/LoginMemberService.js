@@ -19,8 +19,11 @@ export const loginMember = async (emailOrCpf, password) => {
         const passwordMatch = await bcrypt.compare(password, member.password);
 
         if (!passwordMatch) throw new Error("Senha incorreta");
-        
-        const jwToken = jwt.sign({member_id: member.member_id}, process.env.JWT_SECRET, {expiresIn: "1y"});
+
+        const expirationTime = parseInt(process.env.JWT_EXPIRATION_TIME);
+        const jwToken = jwt.sign({member_id: member.member_id, role: member.role}, 
+            process.env.JWT_SECRET, {expiresIn: expirationTime});
+            
         return jwToken;
 
     } catch (error) {
