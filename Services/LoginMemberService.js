@@ -1,5 +1,5 @@
 import {prismaClient} from "../utils/prismaClient.js";
-import {emailRegex, phoneRegex} from "../utils/utils.js";
+import {emailRegex} from "../utils/utils.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -11,8 +11,7 @@ export const loginMember = async (emailOrPhone, password) => {
         if (emailRegex.test(emailOrPhone)) {
             member = await prismaClient.manancialMembers.findUnique({where: {email: emailOrPhone}});
         } 
-        // Check if regex phone in implemented in back-end
-        else if (phoneRegex.test(emailOrPhone)) {
+        else if (emailOrPhone) {
             member = await prismaClient.manancialMembers.findUnique({where: {phone_number: emailOrPhone}});
         } else {
             throw new Error("Email ou Número de telefone inválido");
