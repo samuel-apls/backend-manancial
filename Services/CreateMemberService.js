@@ -1,10 +1,13 @@
 import { prismaClient } from "../utils/prismaClient.js";
 import bcrypt from "bcrypt";
+import authDomain from "../model/authEnum.js";
 
 export const createMember = async (newMember) => {
     try {
         const hashedPassword = await bcrypt.hash(newMember.password, 10);
         
+        const role = handleRoleDomain(newMember.role)
+
         const createdMember = await prismaClient.manancialMembers.create({
           data: {
             name: newMember.name,
@@ -12,7 +15,7 @@ export const createMember = async (newMember) => {
             full_name: newMember.full_name,
             email: newMember.email,
             password: hashedPassword,
-            role: newMember.role !== undefined ? newMember.role : 0,
+            role: role,
             phone_number: newMember.phone_number,
             entry_membership_date: newMember.entry_membership_date,
             exit_membership_date: newMember.exit_membership_date,
@@ -89,4 +92,19 @@ export const createMemberQualification = async (newClassifications) => {
     } catch (error) {
       throw error;
     }
+};
+
+
+const handleRoleDomain = (roleString) => {
+  switch (roleString) {
+      case 'administrator':
+          return authDomain.administrator;
+      case 'midia':
+          return authDomain.midia;
+      case 'member':
+        return authDomain.member;
+
+      default:
+          return authDomain.member;
+  }
 };
