@@ -1,5 +1,6 @@
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 export const cpfRegex = /^(?!([0-9])\1{10})[0-9]{11}$/
+export const phoneRegex = /^\([1-9]{2}\) (?:[2-8]|9[0-9])[0-9]{3}\-[0-9]{4}$/
 
 //fonte: https://www.devmedia.com.br/validar-cpf-com-javascript/23916
 export function verifyCPF(cpf) {

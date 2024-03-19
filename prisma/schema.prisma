@@ -14,7 +14,7 @@ model ManancialMembers {
   password              String
   role                  Int
   birth_date            DateTime
-  phone_number          String
+  phone_number          String                         @unique
   entry_membership_date DateTime
   exit_membership_date  DateTime?
   qualification         ManancialMembersQualification?

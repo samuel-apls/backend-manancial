@@ -50,6 +50,9 @@ CREATE UNIQUE INDEX "ManancialMembersQualification_rg_key" ON "ManancialMembersQ
 CREATE UNIQUE INDEX "ManancialMembers_email_key" ON "ManancialMembers"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "ManancialMembers_phone_key" ON "ManancialMembers"("phone_number");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "ManancialMembersQualification_member_id_key" ON "ManancialMembersQualification"("member_id");
 
 -- AddForeignKey

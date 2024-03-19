@@ -5,10 +5,10 @@ export default {
 
     async verifyNewMember(req, res, next) {
         const {
-            birth_date, full_name, email, password, entry_membership_date, exit_membership_date
+            birth_date, full_name, email, password, entry_membership_date, phone_number
         } = req.body.member;
 
-        if (!birth_date || !full_name || !email || !password || !entry_membership_date) {
+        if (!birth_date || !full_name || !email || !password || !entry_membership_date || !phone_number) {
             return res.status(400).json({message: "Preencha todos os campos"});
         }
 
@@ -21,13 +21,21 @@ export default {
         }
         
         let memberExists = await prismaClient.manancialMembers.findFirst({
-            where: {email}
-        });
+            where: {
+              OR: [
+                { email: email },
+                { phone_number: phone_number }
+              ]
+            }
+          });
 
         if (memberExists) {
             if (memberExists.email === email) {
                 return res.status(400).json({message: "E-mail já cadastrado"});
-            } 
+            }
+            else {
+                return res.status(400).json({message: "Telefone já cadastrado"});
+            }
         }
 
         next();

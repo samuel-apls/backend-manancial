@@ -1,19 +1,21 @@
 import {prismaClient} from "../utils/prismaClient.js";
-import {emailRegex, cpfRegex} from "../utils/utils.js";
+import {emailRegex, phoneRegex} from "../utils/utils.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 
-export const loginMember = async (emailOrCpf, password) => {
+export const loginMember = async (emailOrPhone, password) => {
     try {
-        if (!emailOrCpf || !password) throw new Error("Preencha todos os campos");
+        if (!emailOrPhone || !password) throw new Error("Preencha todos os campos");
         let member;
-        if (emailRegex.test(emailOrCpf)) {
-            member = await prismaClient.manancialMembers.findUnique({where: {email: emailOrCpf}});
-        } else if (cpfRegex.test(emailOrCpf)) {
-            member = await prismaClient.manancialMembersQualification.findUnique({where: {cpf: emailOrCpf}});
+        if (emailRegex.test(emailOrPhone)) {
+            member = await prismaClient.manancialMembers.findUnique({where: {email: emailOrPhone}});
+        } 
+        // Check if regex phone in implemented in back-end
+        else if (phoneRegex.test(emailOrPhone)) {
+            member = await prismaClient.manancialMembers.findUnique({where: {phone_number: emailOrPhone}});
         } else {
-            throw new Error("Email ou CPF inválido");
+            throw new Error("Email ou Número de telefone inválido");
         }
         if (!member) throw new Error("Membro não encontrado");
         const passwordMatch = await bcrypt.compare(password, member.password);
