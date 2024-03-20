@@ -16,7 +16,6 @@ export const createMember = async (newMember) => {
             phone_number: newMember.phone_number,
             entry_membership_date: newMember.entry_membership_date,
             exit_membership_date: newMember.exit_membership_date,
-            member_id: newMember.member_id,
           },
         });
     
