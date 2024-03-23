@@ -4,7 +4,7 @@ CREATE TABLE "ManancialMembers" (
     "full_name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "role" SMALLINT,
+    "role" INTEGER NOT NULL,
     "birth_date" TIMESTAMP(3) NOT NULL,
     "phone_number" TEXT NOT NULL,
     "entry_membership_date" TIMESTAMP(3) NOT NULL,
@@ -48,6 +48,9 @@ CREATE UNIQUE INDEX "ManancialMembersQualification_rg_key" ON "ManancialMembersQ
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ManancialMembers_email_key" ON "ManancialMembers"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ManancialMembers_phone_key" ON "ManancialMembers"("phone_number");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ManancialMembersQualification_member_id_key" ON "ManancialMembersQualification"("member_id");
