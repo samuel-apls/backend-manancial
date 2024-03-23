@@ -1,6 +1,9 @@
 # Api de cadastro de novos membros
 O objetivo desta aplicação é cadastrar novos membros como também cadastrá-los com usuário e senha, para que assim possa ser autorizado a acessar algumas plataformas da ibmanancial.
 
+## Exemplo da Authenticação usada na API
+![alt text](https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihbDksQ6ZcHqIF5TXBrKLahSbeYthbsGy9INyayfnxW_5juaia76YufT76lSZxYQcHyJsKX0NpHV6p5jeYeh3pSUbMqH=w1850-h968)
+
 ## Lista de endpoints
 Abaixo segue as rodas como também contratos para acessar seus principais métodos
 
