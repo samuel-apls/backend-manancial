@@ -18,7 +18,8 @@ Abaixo segue as rodas como também contratos para acessar seus principais métod
 #### Get Member
 `GET /getMember`
 
-    curl --request GET \ --url 'http://localhost:3000/getMember?Id=1' \
+    curl --request GET \ --url 'http://localhost:3000/getMember?Id=1'\
+    --header 'Authorization: Bearer {token}' \
 
  * Resposta: `200`
 
@@ -39,7 +40,8 @@ Abaixo segue as rodas como também contratos para acessar seus principais métod
 #### Get All Members
 `GET /getAllMembers`
 
-    curl --request GET \ --url 'http://localhost:3000/getAllMembers' \
+    curl --request GET \ --url 'http://localhost:3000/getAllMembers'\
+    --header 'Authorization: Bearer {token}' \
 
  * Resposta: `200`
 
@@ -103,6 +105,7 @@ Abaixo segue as rodas como também contratos para acessar seus principais métod
 
     curl --request POST \
     --url https://localhost:3000/member \
+    --header 'Authorization: Bearer {token}' \
     --header 'Content-Type: application/json' \
     --data '{
         "member":{
@@ -137,6 +140,7 @@ Abaixo segue as rodas como também contratos para acessar seus principais métod
 
     curl --request POST \
     --url http://localhost:3000/qualificationsMember \
+    --header 'Authorization: Bearer {token}' \
     --header 'Content-Type: application/json' \
     --data '{
         "classifications":{
