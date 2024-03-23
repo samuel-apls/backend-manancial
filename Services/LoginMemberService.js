@@ -24,8 +24,9 @@ export const loginMember = async (emailOrPhone, password) => {
         const expirationTime = parseInt(process.env.JWT_EXPIRATION_TIME);
         const jwToken = jwt.sign({member_id: member.member_id, role: member.role}, 
             process.env.JWT_SECRET, {expiresIn: expirationTime});
-            
-        return jwToken;
+        
+        let role = member.role;
+        return { jwToken, role };
 
     } catch (error) {
         return { error: error.message };

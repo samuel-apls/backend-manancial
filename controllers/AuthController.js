@@ -9,8 +9,9 @@ export default {
                 console.log("Erro ao efetuar login ->", result.error);
                 return res.status(400).json({ message: result.error });
             }
-            const { jwToken } = result;
-            return res.status(200).json({ message: "Login efetuado com sucesso", jwt: result });
+            return res.status(200).json({ 
+                message: "Login efetuado com sucesso", 
+                jwt: result.jwToken, role: result.role });
             
         } catch (e) {
             console.log("Erro ao efetuar login ->", e.message)
