@@ -1,6 +1,9 @@
 # Api de cadastro de novos membros
 O objetivo desta aplicação é cadastrar novos membros como também cadastrá-los com usuário e senha, para que assim possa ser autorizado a acessar algumas plataformas da ibmanancial.
 
+## Exemplo da Authenticação usada na API
+![alt text](https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihbDksQ6ZcHqIF5TXBrKLahSbeYthbsGy9INyayfnxW_5juaia76YufT76lSZxYQcHyJsKX0NpHV6p5jeYeh3pSUbMqH=w1850-h968)
+
 ## Lista de endpoints
 Abaixo segue as rodas como também contratos para acessar seus principais métodos
 
@@ -18,7 +21,8 @@ Abaixo segue as rodas como também contratos para acessar seus principais métod
 #### Get Member
 `GET /getMember`
 
-    curl --request GET \ --url 'http://localhost:3000/getMember?Id=1' \
+    curl --request GET \ --url 'http://localhost:3000/getMember?Id=1'\
+    --header 'Authorization: Bearer {token}' \
 
  * Resposta: `200`
 
@@ -32,14 +36,15 @@ Abaixo segue as rodas como também contratos para acessar seus principais métod
       	"phone_number": string,
       	"entry_membership_date": DateTime,
       	"exit_membership_date": null
-          }
+        }
       }
     ```
 
 #### Get All Members
 `GET /getAllMembers`
 
-    curl --request GET \ --url 'http://localhost:3000/getAllMembers' \
+    curl --request GET \ --url 'http://localhost:3000/getAllMembers'\
+    --header 'Authorization: Bearer {token}' \
 
  * Resposta: `200`
 
@@ -77,7 +82,7 @@ Abaixo segue as rodas como também contratos para acessar seus principais métod
         --url https://localhost:3000/login \
         --header 'Content-Type: application/json' \
         --data '{
-            "emailOrCpf": string,
+            "emailOrPhone": string,
             "password": string
         }'
 
@@ -86,7 +91,8 @@ Abaixo segue as rodas como também contratos para acessar seus principais métod
    ```
     {
         "message": "Login efetuado com sucesso",
-        "jwt": string
+        "jwt": string,
+        "role": int
     }
     ```
  * Resposta de erro: `400`
@@ -102,16 +108,17 @@ Abaixo segue as rodas como também contratos para acessar seus principais métod
 
     curl --request POST \
     --url https://localhost:3000/member \
+    --header 'Authorization: Bearer {token}' \
     --header 'Content-Type: application/json' \
     --data '{
         "member":{
             "full_name": string,
             "email": string,
             "password": string,
+            "role": string
             "birth_date": DateTime,
             "phone_number": string,
-            "entry_membership_date": DateTime,
-            "member_id": int
+            "entry_membership_date": DateTime
         }
     }'
 
@@ -129,14 +136,15 @@ Abaixo segue as rodas como também contratos para acessar seus principais métod
 	    "message": string
     }
     ```
+    **Obs**: O campo **role** não é obrigatório.
 
 #### Criar Qualificações para membros
 `POST /qualificationsMember`
 
     curl --request POST \
     --url http://localhost:3000/qualificationsMember \
+    --header 'Authorization: Bearer {token}' \
     --header 'Content-Type: application/json' \
-    --header 'User-Agent: insomnia/8.6.1' \
     --data '{
         "classifications":{
             "occupation": string,
