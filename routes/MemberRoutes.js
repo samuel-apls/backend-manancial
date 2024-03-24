@@ -7,7 +7,9 @@ const router = Router();
 
 router.post("/member", middlewareAuthentication.checkAdminPermitionRole, middlewareMember.verifyNewMember, MemberController.createManancialMember)
 router.post("/qualificationsMember", middlewareAuthentication.checkAdminPermitionRole, middlewareMember.checkQualificationsMember, MemberController.createMemberQualification)
+
 router.get("/getMember", middlewareAuthentication.checkAnyPermitionsRoles, MemberController.requestManancialMember)
 router.get("/getAllMembers", middlewareAuthentication.checkAnyPermitionsRoles, MemberController.requestAllManancialMember)
+router.get("/getAllMembersWithQualifications", middlewareAuthentication.checkAdminPermitionRole, MemberController.requestMemberWithQualifications)
 
 export default router;

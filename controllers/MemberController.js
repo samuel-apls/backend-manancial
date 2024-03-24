@@ -2,7 +2,8 @@ import {
     createMember, 
     requestMember, 
     createMemberQualification, 
-    requestAllMembers 
+    requestAllMembers,
+    requestAllMembersWithQualidfications
 } from "../Services/CreateMemberService.js";
 
 export default {
@@ -62,6 +63,22 @@ export default {
         } catch (e) {
             console.log("Erro ao cadastrar qualificações", e)
             return res.status(400).json({message: "Erro ao cadastrar qualificações"})
+        }
+    },
+
+    // Request member with qualification relationchip
+    async requestMemberWithQualifications(req, res) {
+        try {
+            const memberWithQualifications = await requestAllMembersWithQualidfications();
+            if (memberWithQualifications) {
+                return res.status(200).json({ data: memberWithQualifications });
+            } else {
+                return res.status(404).json({ message: 'Empty Database' });
+            }
+
+        } catch (e) {
+            console.log("Erro ao buscar membros com qualificações", e)
+            return res.status(400).json({message: "Erro ao buscar dados"})
         }
     }
     
