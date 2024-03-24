@@ -74,6 +74,38 @@ export const requestAllMembers = async () => {
     }
 };
 
+export const requestAllMembersWithQualidfications = async () => {
+  try {
+    const memberWithQualification = await prismaClient.manancialMembers.findMany({
+      select: {
+        member_id: true,
+        full_name: true,
+        email: true,
+        birth_date: true,
+        phone_number: true,
+        entry_membership_date: true,
+        exit_membership_date: true,
+        qualification: {
+          select: {
+            qualification_id: true,
+            occupation: true,
+            role_church: true,
+            marital_status: true,
+            cpf: true,
+            rg: true,
+            address: true
+          }
+        }
+      }
+    });
+
+    return memberWithQualification;
+      
+    } catch (error) {
+      throw error;
+    }
+};
+
 export const createMemberQualification = async (newClassifications) => {
     try {
       const createdQualification = await prismaClient.manancialMembersQualification.create({
