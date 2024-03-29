@@ -9,6 +9,7 @@ router.post("/member", middlewareAuthentication.checkAdminPermitionRole, middlew
 router.post("/qualificationsMember", middlewareAuthentication.checkAdminPermitionRole, middlewareMember.checkQualificationsMember, MemberController.createMemberQualification)
 
 router.put("/member", middlewareAuthentication.checkAdminPermitionRole, MemberController.updateManancialMember)
+router.put("/qualificationsMember", middlewareAuthentication.checkAdminPermitionRole, MemberController.updateMemberQualification)
 
 router.get("/getMember", middlewareAuthentication.checkAnyPermitionsRoles, MemberController.requestManancialMember)
 router.get("/getAllMembers", middlewareAuthentication.checkAnyPermitionsRoles, MemberController.requestAllManancialMember)

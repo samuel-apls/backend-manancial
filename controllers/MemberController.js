@@ -1,6 +1,7 @@
 import { 
     createMember,
     updateMember,
+    updateMemberQualification,
     requestMember, 
     createMemberQualification, 
     requestAllMembers,
@@ -78,6 +79,21 @@ export default {
         } catch (e) {
             console.log("Erro ao cadastrar qualificações", e)
             return res.status(400).json({message: "Erro ao cadastrar qualificações"})
+        }
+    },
+
+    // It can only update qualification if customer is already member 
+    async updateMemberQualification(req, res) {
+        try {
+            const memberId = req.query.IdMember;
+            const newClassifications = req.body.classifications;
+            const updateQualification = await updateMemberQualification(parseInt(memberId), newClassifications);
+            if (!updateQualification) return res.status(401).json({message: "Qualificação não encontrada!"});
+            return res.status(201).json({message: "Qualificação atualizada com sucesso!", data: updateQualification});
+
+        } catch (e) {
+            console.log("Erro ao atualizar qualificações", e)
+            return res.status(400).json({message: "Erro ao atualizar qualificações"})
         }
     },
 

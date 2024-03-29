@@ -40,13 +40,11 @@ export const updateMember = async (id, member) => {
         where: { member_id: id },
         data: {
           name: member.name,
-          birth_date: member.birth_date,
           full_name: member.full_name,
           email: member.email,
           password: hashedPassword,
           role: role,
           phone_number: member.phone_number,
-          entry_membership_date: member.entry_membership_date,
           exit_membership_date: member.exit_membership_date,
         },
       });
@@ -168,6 +166,29 @@ export const createMemberQualification = async (newClassifications) => {
     } catch (error) {
       throw error;
     }
+};
+
+export const updateMemberQualification = async (id, classifications) => {
+  try {
+    const updatedQualification = await prismaClient.manancialMembersQualification.update({
+      where: {member_id: id},
+      data: {
+        occupation: classifications.occupation,
+        role_church: classifications.role_church,
+        marital_status: classifications.marital_status,
+        address: classifications.address,
+      },
+    });
+
+    return updatedQualification;
+  } catch (error) {
+    if (error.name === "PrismaClientKnownRequestError"){
+      return undefined;
+    }
+    else{
+      throw error;
+    }
+  }
 };
 
 
