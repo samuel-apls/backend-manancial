@@ -1,5 +1,6 @@
 import { 
-    createMember, 
+    createMember,
+    updateMember,
     requestMember, 
     createMemberQualification, 
     requestAllMembers,
@@ -17,6 +18,20 @@ export default {
         } catch (e) {
             console.log("Erro ao cadastrar novo membro ->", e)
             return res.status(500).json({message: "Erro ao salvar membro"})
+        }
+    },
+
+    // Update a customer member
+    async updateManancialMember(req, res) {
+        try {
+            const memberId = req.query.Id;
+            const memberUpdate = req.body.member;
+            const dataMember = await updateMember(parseInt(memberId), memberUpdate);
+            if (!dataMember) return res.status(404).json({message: 'Membro não encontrado'});
+            return res.status(201).json({message: "Membro atualizado com sucesso", data: dataMember})
+        } catch (e) {
+            console.log("Erro ao atualizar membro ->", e)
+            return res.status(500).json({message: "Erro ao atualizar membro"})
         }
     },
 

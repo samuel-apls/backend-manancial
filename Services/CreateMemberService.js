@@ -29,6 +29,50 @@ export const createMember = async (newMember) => {
       }
 };
 
+export const updateMember = async (id, member) => {
+  try {
+      const hashedPassword = await bcrypt.hash(member.password, 10);
+      
+      const role = handleRoleDomain(member.role)
+
+      // update all data relationship
+      const updateMember = await prismaClient.manancialMembers.update({
+        where: { member_id: id },
+        data: {
+          name: member.name,
+          birth_date: member.birth_date,
+          full_name: member.full_name,
+          email: member.email,
+          password: hashedPassword,
+          role: role,
+          phone_number: member.phone_number,
+          entry_membership_date: member.entry_membership_date,
+          exit_membership_date: member.exit_membership_date,
+        },
+      });
+      
+      // return just important data 
+      return {
+        name: updateMember.name,
+        birth_date: updateMember.birth_date,
+        full_name: updateMember.full_name,
+        email: updateMember.email,
+        role: updateMember.role,
+        phone_number: updateMember.phone_number,
+        entry_membership_date: updateMember.entry_membership_date,
+        exit_membership_date: updateMember.exit_membership_date,
+      };
+      
+    } catch (error) {
+      if (error.name === "PrismaClientKnownRequestError"){
+        return undefined;
+      }
+      else{
+        throw error;
+      }
+    }
+};
+
 export const requestMember = async (memberId) => {
   try {
     const member = await prismaClient.manancialMembers.findUnique({
