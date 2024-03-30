@@ -13,6 +13,7 @@ router.put("/qualificationsMember", middlewareAuthentication.checkAdminPermition
 
 router.get("/getMember", middlewareAuthentication.checkAnyPermitionsRoles, MemberController.requestManancialMember)
 router.get("/getAllMembers", middlewareAuthentication.checkAnyPermitionsRoles, MemberController.requestAllManancialMember)
+router.get("/getAllNonValidMembers", middlewareAuthentication.checkAnyPermitionsRoles, MemberController.requestNonValidMembers)
 router.get("/getAllMembersWithQualifications", middlewareAuthentication.checkAdminPermitionRole, MemberController.requestMemberWithQualifications)
 
 export default router;
