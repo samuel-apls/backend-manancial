@@ -31,20 +31,14 @@ export const createMember = async (newMember) => {
 
 export const updateMember = async (id, member) => {
   try {
-      const hashedPassword = await bcrypt.hash(member.password, 10);
-      
       const role = handleRoleDomain(member.role)
 
-      // update all data relationship
+      // update just important fields that administrator have access
       const updateMember = await prismaClient.manancialMembers.update({
         where: { member_id: id },
         data: {
-          name: member.name,
-          full_name: member.full_name,
-          email: member.email,
-          password: hashedPassword,
           role: role,
-          phone_number: member.phone_number,
+          entry_membership_date: member.entry_membership_date, 
           exit_membership_date: member.exit_membership_date,
         },
       });
@@ -216,8 +210,12 @@ export const updateMemberQualification = async (id, classifications) => {
 
 
 const handleRoleDomain = (roleString) => {
-  switch (roleString) {
-      case 'administrator':
+  let role;
+  if (roleString) {
+    role = roleString.toLowerCase();
+  } 
+  switch (role) {
+      case 'administrador':
           return authDomain.administrator;
       case 'midia':
           return authDomain.midia;
