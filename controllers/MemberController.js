@@ -4,7 +4,8 @@ import {
     updateMemberQualification,
     requestMember, 
     createMemberQualification, 
-    requestAllMembers,
+    requestAllValidMembers,
+    requestAllInValidMembers,
     requestAllMembersWithQualidfications
 } from "../Services/CreateMemberService.js";
 
@@ -36,7 +37,7 @@ export default {
         }
     },
 
-    // Request a customer member
+    // Request a customer specific member
     async requestManancialMember(req, res) {
         try {
             const memberId = req.query.Id;
@@ -53,15 +54,31 @@ export default {
         }
     },
 
-    // Request all customers members
-    async requestAllManancialMember(req, res) {
+    // Request all customers of non-valid members
+    async requestNonValidMembers(req, res) {
         try {
-            const member = await requestAllMembers();
+            const member = await requestAllInValidMembers();
             
             if (member) {
                 return res.status(200).json({ data: member });
             } else {
-                return res.status(404).json({ message: 'Empty Database' });
+                return res.status(404).json({ message: 'Membros Não Encontrados' });
+            }
+        } catch (e) {
+            console.log("Erro ao buscar membros ->", e)
+            return res.status(500).json({message: "Erro ao buscar membros"})
+        }
+    },
+
+    // Request all customers members
+    async requestAllManancialMember(req, res) {
+        try {
+            const member = await requestAllValidMembers();
+            
+            if (member) {
+                return res.status(200).json({ data: member });
+            } else {
+                return res.status(404).json({ message: 'Membros Não Encontrados' });
             }
         } catch (e) {
             console.log("Erro ao buscar membros ->", e)

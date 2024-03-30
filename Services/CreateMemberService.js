@@ -95,9 +95,32 @@ export const requestMember = async (memberId) => {
     }
 };
 
-export const requestAllMembers = async () => {
+export const requestAllValidMembers = async () => {
   try {
     const member = await prismaClient.manancialMembers.findMany({
+      where: { exit_membership_date: null },
+      select: {
+        member_id: true,
+        full_name: true,
+        email: true,
+        birth_date: true,
+        phone_number: true,
+        entry_membership_date: true,
+        exit_membership_date: true
+      }
+    });
+
+    return member;
+      
+    } catch (error) {
+      throw error;
+    }
+};
+
+export const requestAllInValidMembers = async () => {
+  try {
+    const member = await prismaClient.manancialMembers.findMany({
+      where: { exit_membership_date: {not: null } },
       select: {
         member_id: true,
         full_name: true,
