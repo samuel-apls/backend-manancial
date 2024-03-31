@@ -7,6 +7,8 @@ CREATE TABLE "ManancialMembers" (
     "role" INTEGER NOT NULL,
     "birth_date" TIMESTAMP(3) NOT NULL,
     "phone_number" TEXT NOT NULL,
+    "password_reset_token" TEXT,
+    "password_reset_exp" TIMESTAMP(3),
     "entry_membership_date" TIMESTAMP(3) NOT NULL,
     "exit_membership_date" TIMESTAMP(3),
 

@@ -15,6 +15,8 @@ model ManancialMembers {
   role                  Int
   birth_date            DateTime
   phone_number          String                         @unique
+  password_reset_token  String?
+  password_reset_exp    DateTime?
   entry_membership_date DateTime
   exit_membership_date  DateTime?
   qualification         ManancialMembersQualification?

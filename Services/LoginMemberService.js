@@ -2,6 +2,8 @@ import {prismaClient} from "../utils/prismaClient.js";
 import {emailRegex} from "../utils/utils.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
+import transport from "../modules/mailer.js";
 
 
 export const loginMember = async (emailOrPhone, password) => {
@@ -27,6 +29,83 @@ export const loginMember = async (emailOrPhone, password) => {
         
         let role = member.role;
         return { jwToken, role };
+
+    } catch (error) {
+        return { error: error.message };
+    }
+    
+};
+
+
+export const forgotPasswordReqEmail = async (email) => {
+    try {
+        let member;
+        if (emailRegex.test(email)) {
+            member = await prismaClient.manancialMembers.findUnique({where: {email: email}});
+        }
+        if (!member) throw new Error("Email não encontrado");
+        
+        const token = crypto.randomBytes(20).toString('hex');
+
+        const now = new Date();
+        now.setHours(now.getHours() + 1);
+
+        await prismaClient.manancialMembers.update({
+            where: { member_id: member.member_id },
+            data: {
+              password_reset_token: token,
+              password_reset_exp: now,
+            },
+        });
+        
+        transport.sendMail({
+            to: email,
+            from: "ur.batista@hotmail.com",
+            template: "./auth/forgotPassword",
+            context: { token },
+        }, (err) => {
+            if (err) throw new Error(err); 
+        });
+
+        return { token }
+
+    } catch (error) {
+        return { error: error.message };
+    }
+    
+};
+
+export const resetPasswordService = async (email, token, password) => {
+    try {
+        let member;
+        if (emailRegex.test(email)) {
+            member = await prismaClient.manancialMembers.findUnique({
+                where: {email: email}, 
+                select: {
+                    member_id: true,
+                    password_reset_token: true,
+                    password_reset_exp: true,
+                }
+            });
+        }
+        if (!member) return {error: "Email não encontrado"};
+        
+        if (token !== member.password_reset_token) return {error: "Tokens divergentes ao do banco!!"};
+
+        const now = new Date();
+
+        if (now > member.password_reset_exp) return {error: "Token expirado, gere outro"};
+        
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await prismaClient.manancialMembers.update({
+            where: {member_id: member.member_id },
+            data: {
+                password: hashedPassword,
+            }
+        });
+
+        return { message: "Senha atualizada com sucesso!!" };
 
     } catch (error) {
         return { error: error.message };
