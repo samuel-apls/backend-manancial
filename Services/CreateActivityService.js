@@ -1,17 +1,17 @@
 import { prismaClient } from "../utils/prismaClient.js";
 
-export const createActivity = async (newActivity) => {
+export const createActivity = async (newActivities) => {
     try {
-        const createdActivity = await prismaClient.manancialActivities.create({
-          data: {
-            name: newActivity.name,
-            description: newActivity.description,
-            local: newActivity.local,
-            activity_date: newActivity.activity_date,
-          },
+        const createdActivities = await prismaClient.manancialActivities.createMany({
+          data: newActivities.map(activity => ({
+            name: activity.name,
+            description: activity.description,
+            local: activity.local,
+            activity_date: activity.activity_date,
+          })),
         });
     
-        return createdActivity;
+        return createdActivities;
         
       } catch (error) {
         throw error;
