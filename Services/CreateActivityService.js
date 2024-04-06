@@ -17,3 +17,21 @@ export const createActivity = async (newActivities) => {
         throw error;
       }
 };
+
+export const requestActivities = async () => {
+  try {
+    const activities = await prismaClient.manancialActivities.findMany({
+      select: {
+        name: true,
+        description: true,
+        local: true,
+        activity_date: true
+      }
+    });
+
+    return activities;
+      
+    } catch (error) {
+      throw error;
+    }
+};
