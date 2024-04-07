@@ -32,7 +32,9 @@ export default {
             if (!authHeader) return res.status(401).json({error: "Token de autenticação não forncecido"});
             const token = authHeader.slice(7);
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            if (decoded.role === authDomain.administrator || decoded.role === authDomain.member) { 
+            if (decoded.role === authDomain.administrator 
+                || decoded.role === authDomain.member 
+                || decoded.role === authDomain.midia) { 
                 next()
             }
             else {
