@@ -31,15 +31,20 @@ export const createMember = async (newMember) => {
 
 export const updateMember = async (id, member) => {
   try {
-      const role = handleRoleDomain(member.role)
+      const requestMember = await prismaClient.manancialMembers.findUnique({
+        where: { member_id: id }
+      });
 
       // update just important fields that administrator have access
       const updateMember = await prismaClient.manancialMembers.update({
         where: { member_id: id },
         data: {
-          role: role,
-          entry_membership_date: member.entry_membership_date, 
-          exit_membership_date: member.exit_membership_date,
+          full_name: member.full_name ? member.full_name : requestMember.full_name,
+          email: member.email ? member.email : requestMember.email,
+          phone_number: member.phone_number ? member.phone_number : requestMember.phone_number,
+          role: member.role ? handleRoleDomain(member.role) : requestMember.role,
+          entry_membership_date: member.entry_membership_date ? member.entry_membership_date : requestMember.entry_membership_date,
+          exit_membership_date: member.exit_membership_date ? member.exit_membership_date : requestMember.exit_membership_date,
         },
       });
       
