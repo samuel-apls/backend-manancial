@@ -66,5 +66,36 @@ export default {
         }
 
         next();
+    },
+
+    async checkActivitiesManancial(req, res, next) {
+        const activities = req.body.activities;
+        
+        if (!Array.isArray(activities) || activities.length === 0) {
+            return res.status(400).json({ 
+                message: "Atividades não passadas ou se encontram no formato incorreto!" 
+            });
+        }
+
+        const errors = [];
+
+        activities.forEach((activity, index) => {
+            const { name, description, local, activity_date } = activity;
+            
+            if (!name || !description || !local || !activity_date) {
+                errors.push(`Atividade ${index + 1} falta preencher os campos: ${[
+                    !name ? "name" : "",
+                    !description ? "description" : "",
+                    !local ? "local" : "",
+                    !activity_date ? "activity_date" : ""
+                ].filter(Boolean).join(", ")}`);
+            }
+        });
+
+        if (errors.length > 0) {
+            return res.status(400).json({ message: "Erro na validação das atividades", errors });
+        }
+        
+        next();
     }
 }
