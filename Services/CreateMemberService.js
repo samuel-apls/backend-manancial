@@ -79,6 +79,7 @@ export const requestMember = async (memberId) => {
         email: true,
         birth_date: true,
         phone_number: true,
+        role: true,
         entry_membership_date: true,
         exit_membership_date: true
       },
@@ -104,6 +105,7 @@ export const requestAllValidMembers = async () => {
         email: true,
         birth_date: true,
         phone_number: true,
+        role: true,
         entry_membership_date: true,
         exit_membership_date: true
       }
@@ -126,6 +128,7 @@ export const requestAllInValidMembers = async () => {
         email: true,
         birth_date: true,
         phone_number: true,
+        role: true,
         entry_membership_date: true,
         exit_membership_date: true
       }
@@ -147,6 +150,7 @@ export const requestAllMembersWithQualidfications = async () => {
         email: true,
         birth_date: true,
         phone_number: true,
+        role: true,
         entry_membership_date: true,
         exit_membership_date: true,
         qualification: {
