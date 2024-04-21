@@ -43,8 +43,9 @@ export default {
 
     async resetPassword(req, res) { // reset pass
         try {
-            const { email, password } = req.body;
-            const result = await resetPasswordService(email, password);
+            const { password } = req.body;
+            const token = req.headers.authorization;
+            const result = await resetPasswordService(token, password);
             if (result.error) {
                 console.log("Erro ao resetar senha ->", result.error);
                 return res.status(400).json({ message: result.error });

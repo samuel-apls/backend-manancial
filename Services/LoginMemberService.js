@@ -107,22 +107,16 @@ export const checkTokenPasswordService = async (email, token) => {
     }
 }
 
-export const resetPasswordService = async (email, password) => {
+export const resetPasswordService = async (token, password) => {
     try {
-        let member;
-        if (emailRegex.test(email)) {
-            member = await prismaClient.manancialMembers.findUnique({
-                where: {email: email}, 
-                select: {
-                    member_id: true,
-                }
-            });
-        }
-        
+        const dataToken = token.slice(7);
+        jwt.verify(dataToken, process.env.JWT_SECRET);
+        const tokenDecoded = jwt.decode(dataToken, process.env.JWT_SECRET)
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
         await prismaClient.manancialMembers.update({
-            where: {member_id: member.member_id },
+            where: {member_id: tokenDecoded.member_id },
             data: {
                 password: hashedPassword,
             }
