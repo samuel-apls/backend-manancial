@@ -1,5 +1,5 @@
 import {prismaClient} from "../utils/prismaClient.js";
-import {emailRegex} from "../utils/utils.js";
+import {emailRegex, generateRandomString} from "../utils/utils.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
@@ -45,7 +45,7 @@ export const forgotPasswordReqEmail = async (email) => {
         }
         if (!member) throw new Error("Email não encontrado");
         
-        const token = crypto.randomBytes(20).toString('hex');
+        const token = generateRandomString();
 
         const now = new Date();
         now.setHours(now.getHours() + 1);
@@ -60,7 +60,7 @@ export const forgotPasswordReqEmail = async (email) => {
         
         transport.sendMail({
             to: email,
-            from: "ur.batista@hotmail.com",
+            from: "evan.destroyker@hotmail.com",
             template: "./auth/forgotPassword",
             context: { token },
         }, (err) => {
@@ -75,7 +75,7 @@ export const forgotPasswordReqEmail = async (email) => {
     
 };
 
-export const resetPasswordService = async (email, token, password) => {
+export const checkTokenPasswordService = async (email, token) => {
     try {
         let member;
         if (emailRegex.test(email)) {
@@ -88,13 +88,36 @@ export const resetPasswordService = async (email, token, password) => {
                 }
             });
         }
-        if (!member) return {error: "Email não encontrado"};
+        if (!member) return {error: "Email não passado ou inexistente"};
         
         if (token !== member.password_reset_token) return {error: "Tokens divergentes ao do banco!!"};
 
         const now = new Date();
 
         if (now > member.password_reset_exp) return {error: "Token expirado, gere outro"};
+        
+        const expirationTokenPasswordTime = parseInt(process.env.JWT_PASSWORD_RESET_TIME);
+        const jwToken = jwt.sign({member_id: member.member_id, role: member.role, tokenRest: token}, 
+            process.env.JWT_SECRET, {expiresIn: expirationTokenPasswordTime});
+
+        return { jwToken }
+
+    } catch(error) {
+        return { error: error.message };
+    }
+}
+
+export const resetPasswordService = async (email, password) => {
+    try {
+        let member;
+        if (emailRegex.test(email)) {
+            member = await prismaClient.manancialMembers.findUnique({
+                where: {email: email}, 
+                select: {
+                    member_id: true,
+                }
+            });
+        }
         
         const hashedPassword = await bcrypt.hash(password, 10);
 

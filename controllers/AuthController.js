@@ -1,7 +1,8 @@
 import { 
     loginMember, 
     forgotPasswordReqEmail, 
-    resetPasswordService } 
+    resetPasswordService,
+    checkTokenPasswordService } 
 from "../Services/LoginMemberService.js";
 
 export default {
@@ -42,14 +43,32 @@ export default {
 
     async resetPassword(req, res) { // reset pass
         try {
-            const { email, token, password } = req.body;
-            const result = await resetPasswordService(email, token, password);
+            const { email, password } = req.body;
+            const result = await resetPasswordService(email, password);
             if (result.error) {
                 console.log("Erro ao resetar senha ->", result.error);
                 return res.status(400).json({ message: result.error });
             }
             return res.status(200).json({ 
                 message: "Senha resetada com sucesso!!"});
+            
+        } catch (e) {
+            console.log("Erro no reset de senha ->", e.message)
+            res.status(500).json({message: "Erro no reset de senha"})
+        }
+    },
+
+    async checkTokenPassword(req, res) { // check token password
+        try {
+            const { email, token } = req.body;
+            const result = await checkTokenPasswordService(email, token);
+            if (result.error) {
+                console.log("Erro ao validar token ->", result.error);
+                return res.status(400).json({ message: result.error });
+            }
+            return res.status(200).json({ 
+                message: "Token Válido!!",
+                jwToken: result });
             
         } catch (e) {
             console.log("Erro no reset de senha ->", e.message)
