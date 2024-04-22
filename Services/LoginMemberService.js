@@ -97,9 +97,9 @@ export const checkTokenPasswordService = async (email, token) => {
 
         if (now > member.password_reset_exp) return {error: "Token expirado, gere outro"};
         
-        const expirationTokenPasswordTime = parseInt(process.env.JWT_PASSWORD_RESET_TIME);
+        const expirationToken = parseInt(process.env.JWT_EXPIRATION_TIME);
         const jwToken = jwt.sign({member_id: member.member_id, role: member.role, tokenRest: token}, 
-            process.env.JWT_SECRET, {expiresIn: expirationTokenPasswordTime});
+            process.env.JWT_SECRET, {expiresIn: expirationToken});
 
         return { jwToken }
 
