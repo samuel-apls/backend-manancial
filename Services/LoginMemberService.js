@@ -60,6 +60,7 @@ export const forgotPasswordReqEmail = async (email) => {
         
         transport.sendMail({
             to: email,
+            subject: "Recuperação de Senha",
             from: "evan.destroyker@hotmail.com",
             template: "./auth/forgotPassword",
             context: { token },
@@ -90,7 +91,7 @@ export const checkTokenPasswordService = async (email, token) => {
         }
         if (!member) return {error: "Email não passado ou inexistente"};
         
-        if (token !== member.password_reset_token) return {error: "Tokens divergentes ao do banco!!"};
+        if (token !== member.password_reset_token) return {error: "Token inválido!"};
 
         const now = new Date();
 
@@ -119,6 +120,7 @@ export const resetPasswordService = async (token, password) => {
             where: {member_id: tokenDecoded.member_id },
             data: {
                 password: hashedPassword,
+                password_reset_token: null,
             }
         });
 
