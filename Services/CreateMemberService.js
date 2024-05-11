@@ -174,17 +174,17 @@ export const requestAllMembersWithQualidfications = async () => {
     }
 };
 
-export const createMemberQualification = async (newClassifications) => {
+export const createMemberQualification = async (newQualifications) => {
     try {
       const createdQualification = await prismaClient.manancialMembersQualification.create({
         data: {
-          occupation: newClassifications.occupation,
-          role_church: newClassifications.role_church,
-          marital_status: newClassifications.marital_status,
-          cpf: newClassifications.cpf,
-          rg: newClassifications.rg,
-          address: newClassifications.address,
-          member_id: newClassifications.member_id,
+          occupation: newQualifications.occupation,
+          role_church: newQualifications.role_church,
+          marital_status: newQualifications.marital_status,
+          cpf: newQualifications.cpf,
+          rg: newQualifications.rg,
+          address: newQualifications.address,
+          member_id: newQualifications.member_id,
         },
       });
   
@@ -194,15 +194,15 @@ export const createMemberQualification = async (newClassifications) => {
     }
 };
 
-export const updateMemberQualification = async (id, classifications) => {
+export const updateMemberQualification = async (id, qualifications) => {
   try {
     const updatedQualification = await prismaClient.manancialMembersQualification.update({
       where: {member_id: id},
       data: {
-        occupation: classifications.occupation,
-        role_church: classifications.role_church,
-        marital_status: classifications.marital_status,
-        address: classifications.address,
+        occupation: qualifications.occupation,
+        role_church: qualifications.role_church,
+        marital_status: qualifications.marital_status,
+        address: qualifications.address,
       },
     });
 

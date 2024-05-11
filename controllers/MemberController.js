@@ -89,8 +89,8 @@ export default {
     // It can only create qualification if customer is already member 
     async createMemberQualification(req, res) {
         try {
-            const newClassifications = req.body.classifications;
-            await createMemberQualification(newClassifications);
+            const newQualifications = req.body.qualifications;
+            await createMemberQualification(newQualifications);
             return res.status(201).json({message: "Qualificação cadastrada com sucesso!"});
 
         } catch (e) {
@@ -102,9 +102,9 @@ export default {
     // It can only update qualification if customer is already member 
     async updateMemberQualification(req, res) {
         try {
-            const memberId = req.query.IdMember;
-            const newClassifications = req.body.classifications;
-            const updateQualification = await updateMemberQualification(parseInt(memberId), newClassifications);
+            const memberId = req.query.Id;
+            const newQualifications = req.body.qualifications;
+            const updateQualification = await updateMemberQualification(parseInt(memberId), newQualifications);
             if (!updateQualification) return res.status(401).json({message: "Qualificação não encontrada!"});
             return res.status(201).json({message: "Qualificação atualizada com sucesso!", data: updateQualification});
 
