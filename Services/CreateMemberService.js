@@ -34,6 +34,18 @@ export const updateMember = async (id, member) => {
       const requestMember = await prismaClient.manancialMembers.findUnique({
         where: { member_id: id }
       });
+      
+      let currentDate = new Date();
+      let entry_date = member.entry_membership_date || requestMember.entry_membership_date;
+      let exit_date = member.exit_membership_date;
+      
+      if (member.exit_membership_date === null) {
+        entry_date = currentDate;
+        exit_date = null;
+      }
+      else if (member.exit_membership_date === undefined){
+        exit_date = requestMember.exit_membership_date
+      }
 
       // update just important fields that administrator have access
       const updateMember = await prismaClient.manancialMembers.update({
@@ -43,8 +55,8 @@ export const updateMember = async (id, member) => {
           email: member.email ? member.email : requestMember.email,
           phone_number: member.phone_number ? member.phone_number : requestMember.phone_number,
           role: member.role ? handleRoleDomain(member.role) : requestMember.role,
-          entry_membership_date: member.entry_membership_date ? member.entry_membership_date : requestMember.entry_membership_date,
-          exit_membership_date: member.exit_membership_date ? member.exit_membership_date : requestMember.exit_membership_date,
+          entry_membership_date: entry_date,
+          exit_membership_date: exit_date,
         },
       });
       
