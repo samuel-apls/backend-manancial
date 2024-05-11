@@ -21,15 +21,17 @@ model ManancialMembers {
 }
 
 model ManancialMembersQualification {
-  qualification_id Int              @id @default(autoincrement())
-  occupation       String
-  role_church      String
-  marital_status   String
-  cpf              String           @unique
-  rg               String           @unique
-  address          String
-  member_id        Int              @unique
-  qualificacao     ManancialMembers @relation(fields: [member_id], references: [member_id])
+  qualification_id               Int              @id @default(autoincrement())
+  occupation                     String
+  role_church                    String
+  marital_status                 String
+  cpf                            String           @unique
+  rg                             String           @unique
+  address                        String
+  member_id                      Int              @unique
+  entry_qualificationship_date   DateTime
+  exit_qualificationship_date    DateTime?
+  qualificacao                   ManancialMembers @relation(fields: [member_id], references: [member_id])
 }
 
 model ManancialActivities {

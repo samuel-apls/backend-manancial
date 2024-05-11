@@ -23,6 +23,8 @@ CREATE TABLE "ManancialMembersQualification" (
     "rg" TEXT NOT NULL,
     "address" TEXT NOT NULL,
     "member_id" INTEGER NOT NULL,
+    "entry_qualificationship_date" TIMESTAMP(3) NOT NULL,
+    "exit_qualificationship_date" TIMESTAMP(3),
 
     CONSTRAINT "ManancialMembersQualification_pkey" PRIMARY KEY ("qualification_id")
 );
