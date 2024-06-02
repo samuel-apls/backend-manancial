@@ -166,6 +166,7 @@ export const requestAllMembersWithQualidfications = async () => {
         entry_membership_date: true,
         exit_membership_date: true,
         qualification: {
+          where: { exit_membership_qualification_date: {not: null} },
           select: {
             qualification_id: true,
             occupation: true,
@@ -215,6 +216,7 @@ export const updateMemberQualification = async (id, classifications) => {
         role_church: classifications.role_church,
         marital_status: classifications.marital_status,
         address: classifications.address,
+        exit_membership_qualification_date: classifications.exit_membership_qualification_date 
       },
     });
 
