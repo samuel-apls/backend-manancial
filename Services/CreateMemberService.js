@@ -166,6 +166,7 @@ export const requestAllMembersWithQualidfications = async () => {
         entry_membership_date: true,
         exit_membership_date: true,
         qualification: {
+          where: { exit_membership_qualification_date: null },
           select: {
             qualification_id: true,
             occupation: true,
@@ -173,7 +174,8 @@ export const requestAllMembersWithQualidfications = async () => {
             marital_status: true,
             cpf: true,
             rg: true,
-            address: true
+            address: true,
+            exit_membership_qualification_date: true
           }
         }
       }
@@ -208,13 +210,28 @@ export const createMemberQualification = async (newClassifications) => {
 
 export const updateMemberQualification = async (id, classifications) => {
   try {
+
+    const requestQualifications = await prismaClient.manancialMembersQualification.findUnique({
+      where: { member_id: id }
+    });
+
+    let exit_date = classifications.exit_membership_qualification_date;
+
+    if (classifications.exit_membership_qualification_date === null) {
+      exit_date = null;
+    }
+    else if (classifications.exit_membership_qualification_date === undefined){
+      exit_date = requestQualifications.exit_membership_qualification_date
+    }
+
     const updatedQualification = await prismaClient.manancialMembersQualification.update({
       where: {member_id: id},
       data: {
-        occupation: classifications.occupation,
-        role_church: classifications.role_church,
-        marital_status: classifications.marital_status,
-        address: classifications.address,
+        occupation: classifications.occupation ? classifications.occupation : requestQualifications.occupation,
+        role_church: classifications.role_church ? classifications.role_church : requestQualifications.role_church,
+        marital_status: classifications.marital_status ? classifications.marital_status : requestQualifications.marital_status,
+        address: classifications.address ? classifications.address : requestQualifications.address,
+        exit_membership_qualification_date: exit_date
       },
     });
 
